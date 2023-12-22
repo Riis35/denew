@@ -146,7 +146,9 @@ Container RGB(Size size) {
           children: [
             Row(
               //Dropbox ve Container için
-              children: [_dropdownButton(size)],
+              children: [
+                Obx(() => _dropdownButton(size)),
+              ],
             )
           ],
         )
@@ -195,6 +197,10 @@ DropdownButtonHideUnderline _dropdownButton(Size size) {
         },
         value: MainApp.c.firstIcon.value,
         borderRadius: BorderRadius.circular(8),
+        icon: Icon(
+          Icons.arrow_drop_down_rounded,
+          color: Colors.black,
+        ),
       ),
     ),
   );
@@ -206,7 +212,55 @@ List<DropdownMenuItem<String>> get dropdownItems {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Icon(Icons.light),
+            Icon(FontAwesomeIcons.square),
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              child: Text(
+                "None",
+                style: GoogleFonts.montserrat(
+                    color: Colors.black, fontWeight: FontWeight.w600),
+              ),
+            )
+          ],
+        ),
+        value: "None"),
+    DropdownMenuItem(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(Icons.air_rounded),
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              child: Text(
+                "Breathing",
+                style: GoogleFonts.montserrat(
+                    color: Colors.black, fontWeight: FontWeight.w600),
+              ),
+            )
+          ],
+        ),
+        value: "Breathing"),
+    DropdownMenuItem(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(FontAwesomeIcons.rainbow),
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              child: Text(
+                "Rainbow",
+                style: GoogleFonts.montserrat(
+                    color: Colors.black, fontWeight: FontWeight.w600),
+              ),
+            )
+          ],
+        ),
+        value: "Rainbow"),
+    DropdownMenuItem(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(Icons.bolt_rounded),
             Container(
               margin: EdgeInsets.only(left: 10),
               child: Text(
@@ -222,50 +276,18 @@ List<DropdownMenuItem<String>> get dropdownItems {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Icon(Icons.light),
+            Icon(Icons.circle_rounded),
             Container(
               margin: EdgeInsets.only(left: 10),
               child: Text(
-                "Flash",
+                "Static",
                 style: GoogleFonts.montserrat(
                     color: Colors.black, fontWeight: FontWeight.w600),
               ),
             )
           ],
         ),
-        value: "Breathing"),
-    DropdownMenuItem(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(Icons.light),
-            Container(
-              margin: EdgeInsets.only(left: 10),
-              child: Text(
-                "Flash",
-                style: GoogleFonts.montserrat(
-                    color: Colors.black, fontWeight: FontWeight.w600),
-              ),
-            )
-          ],
-        ),
-        value: "Rainbow"),
-    DropdownMenuItem(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(Icons.light),
-            Container(
-              margin: EdgeInsets.only(left: 10),
-              child: Text(
-                "Flash",
-                style: GoogleFonts.montserrat(
-                    color: Colors.black, fontWeight: FontWeight.w600),
-              ),
-            )
-          ],
-        ),
-        value: "None"),
+        value: "Static"),
   ];
   return menuItems;
 }
