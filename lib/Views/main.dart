@@ -146,7 +146,7 @@ Container RGB(Size size) {
           children: [
             Row(
               //Dropbox ve Container için
-              children: [_dropdownMenu(size)],
+              children: [_dropdownButton(size)],
             )
           ],
         )
@@ -159,6 +159,7 @@ class Controller extends GetxController {
   var selection = 1.obs;
   var profile = 1.obs;
   var color = Color.fromARGB(255, 222, 222, 222).obs;
+  var firstIcon = "None".obs;
 
   void change(int number) {
     selection.value = number;
@@ -171,195 +172,64 @@ class Controller extends GetxController {
   void changeColor(Color newColor) {
     color.value = newColor;
   }
+
+  void changeIcon(String newMode) {
+    firstIcon.value = newMode;
+  }
 }
 
-DropdownMenu _dropdownMenu(Size size) {
-  return DropdownMenu<IconLabel>(
-    leadingIcon: const Icon(
-      Icons.settings,
-      color: Colors.black,
+//Dropdownlar
+DropdownButtonHideUnderline _dropdownButton(Size size) {
+  return DropdownButtonHideUnderline(
+    child: Container(
+      padding: EdgeInsets.all(5),
+      width: size.width * 0.17,
+      height: size.width * 0.04,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(8))),
+      child: DropdownButton(
+        items: dropdownItems,
+        onChanged: (String? value) {
+          MainApp.c.changeIcon(value!);
+        },
+        value: MainApp.c.firstIcon.value,
+        borderRadius: BorderRadius.circular(8),
+      ),
     ),
-    trailingIcon: Icon(
-      Icons.arrow_drop_down,
-      color: Colors.black,
-    ),
-    menuStyle: MenuStyle(),
-    hintText: "Mods",
-    textStyle: GoogleFonts.montserrat(color: Colors.black),
-    inputDecorationTheme: const InputDecorationTheme(
-        fillColor: Colors.white,
-        filled: true,
-        contentPadding: EdgeInsets.symmetric(vertical: 13),
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)))),
-    onSelected: (IconLabel? icon) {
-      MainApp.mod = icon!.index;
-    },
-    dropdownMenuEntries: IconLabel.values.map<DropdownMenuEntry<IconLabel>>(
-      (IconLabel icon) {
-        return DropdownMenuEntry<IconLabel>(
-          value: icon,
-          label: icon.label,
-          leadingIcon: Icon(icon.icon),
-        );
-      },
-    ).toList(),
   );
 }
 
-enum IconLabel {
-  none('None', Icons.sentiment_satisfied_outlined),
-  smile('Smile', Icons.sentiment_satisfied_outlined),
-  cloud(
-    'Cloud',
-    Icons.cloud_outlined,
-  ),
-  brush('Brush', Icons.brush_outlined),
-  heart('Heart', Icons.favorite);
-
-  const IconLabel(this.label, this.icon);
-  final String label;
-  final IconData icon;
-}
-
-
-/*
-// DropdownMenuEntry labels and values for the first dropdown menu.
-enum ColorLabel {
-  blue('Blue', Colors.blue),
-  pink('Pink', Colors.pink),
-  green('Green', Colors.green),
-  yellow('Orange', Colors.orange),
-  grey('Grey', Colors.grey);
-
-  const ColorLabel(this.label, this.color);
-  final String label;
-  final Color color;
-}
-
-// DropdownMenuEntry labels and values for the second dropdown menu.
-enum IconLabel {
-  smile('Smile', Icons.sentiment_satisfied_outlined),
-  cloud(
-    'Cloud',
-    Icons.cloud_outlined,
-  ),
-  brush('Brush', Icons.brush_outlined),
-  heart('Heart', Icons.favorite);
-
-  const IconLabel(this.label, this.icon);
-  final String label;
-  final IconData icon;
-}
-
-class DropdownMenuExample extends StatefulWidget {
-  const DropdownMenuExample({super.key});
-
-  @override
-  State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
-}
-
-class _DropdownMenuExampleState extends State<DropdownMenuExample> {
-  final TextEditingController colorController = TextEditingController();
-  final TextEditingController iconController = TextEditingController();
-  ColorLabel? selectedColor;
-  IconLabel? selectedIcon;
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.green,
-      ),
-      home: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    DropdownMenu<ColorLabel>(
-                      initialSelection: ColorLabel.green,
-                      controller: colorController,
-                      // requestFocusOnTap is enabled/disabled by platforms when it is null.
-                      // On mobile platforms, this is false by default. Setting this to true will
-                      // trigger focus request on the text field and virtual keyboard will appear
-                      // afterward. On desktop platforms however, this defaults to true.
-                      requestFocusOnTap: true,
-                      label: const Text('Color'),
-                      onSelected: (ColorLabel? color) {
-                        setState(() {
-                          selectedColor = color;
-                        });
-                      },
-                      dropdownMenuEntries: ColorLabel.values
-                          .map<DropdownMenuEntry<ColorLabel>>(
-                              (ColorLabel color) {
-                        return DropdownMenuEntry<ColorLabel>(
-                          value: color,
-                          label: color.label,
-                          enabled: color.label != 'Grey',
-                          style: MenuItemButton.styleFrom(
-                            foregroundColor: color.color,
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                    const SizedBox(width: 24),
-                    DropdownMenu<IconLabel>(
-                      controller: iconController,
-                      enableFilter: true,
-                      requestFocusOnTap: true,
-                      leadingIcon: const Icon(Icons.search),
-                      label: const Text('Icon'),
-                      inputDecorationTheme: const InputDecorationTheme(
-                        filled: true,
-                        contentPadding: EdgeInsets.symmetric(vertical: 5.0),
-                      ),
-                      onSelected: (IconLabel? icon) {
-                        setState(() {
-                          selectedIcon = icon;
-                        });
-                      },
-                      dropdownMenuEntries:
-                          IconLabel.values.map<DropdownMenuEntry<IconLabel>>(
-                        (IconLabel icon) {
-                          return DropdownMenuEntry<IconLabel>(
-                            value: icon,
-                            label: icon.label,
-                            leadingIcon: Icon(icon.icon),
-                          );
-                        },
-                      ).toList(),
-                    ),
-                  ],
-                ),
-              ),
-              if (selectedColor != null && selectedIcon != null)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                        'You selected a ${selectedColor?.label} ${selectedIcon?.label}'),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Icon(
-                        selectedIcon?.icon,
-                        color: selectedColor?.color,
-                      ),
-                    )
-                  ],
-                )
-              else
-                const Text('Please select a color and an icon.')
-            ],
-          ),
+List<DropdownMenuItem<String>> get dropdownItems {
+  List<DropdownMenuItem<String>> menuItems = [
+    DropdownMenuItem(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(Icons.light),
+            Text(
+              "Flash",
+              style: GoogleFonts.montserrat(
+                  color: Colors.black, fontWeight: FontWeight.w600),
+            )
+          ],
         ),
-      ),
-    );
-  }
+        value: "Flash"),
+    DropdownMenuItem(
+        child: Row(
+          children: [Icon(FontAwesomeIcons.rainbow), Text("Rainbow")],
+        ),
+        value: "Rainbow"),
+    DropdownMenuItem(
+        child: Row(
+          children: [Icon(Icons.air), Text("Breathing")],
+        ),
+        value: "Breathing"),
+    DropdownMenuItem(
+        child: Row(
+          children: [Icon(FontAwesomeIcons.x), Text("None")],
+        ),
+        value: "None"),
+  ];
+  return menuItems;
 }
-*/
