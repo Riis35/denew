@@ -207,27 +207,63 @@ List<DropdownMenuItem<String>> get dropdownItems {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(Icons.light),
-            Text(
-              "Flash",
-              style: GoogleFonts.montserrat(
-                  color: Colors.black, fontWeight: FontWeight.w600),
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              child: Text(
+                "Flash",
+                style: GoogleFonts.montserrat(
+                    color: Colors.black, fontWeight: FontWeight.w600),
+              ),
             )
           ],
         ),
         value: "Flash"),
     DropdownMenuItem(
         child: Row(
-          children: [Icon(FontAwesomeIcons.rainbow), Text("Rainbow")],
-        ),
-        value: "Rainbow"),
-    DropdownMenuItem(
-        child: Row(
-          children: [Icon(Icons.air), Text("Breathing")],
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(Icons.light),
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              child: Text(
+                "Flash",
+                style: GoogleFonts.montserrat(
+                    color: Colors.black, fontWeight: FontWeight.w600),
+              ),
+            )
+          ],
         ),
         value: "Breathing"),
     DropdownMenuItem(
         child: Row(
-          children: [Icon(FontAwesomeIcons.x), Text("None")],
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(Icons.light),
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              child: Text(
+                "Flash",
+                style: GoogleFonts.montserrat(
+                    color: Colors.black, fontWeight: FontWeight.w600),
+              ),
+            )
+          ],
+        ),
+        value: "Rainbow"),
+    DropdownMenuItem(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(Icons.light),
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              child: Text(
+                "Flash",
+                style: GoogleFonts.montserrat(
+                    color: Colors.black, fontWeight: FontWeight.w600),
+              ),
+            )
+          ],
         ),
         value: "None"),
   ];
