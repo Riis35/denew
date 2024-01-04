@@ -142,16 +142,80 @@ Container RGB(Size size) {
       //RGB'nin tamamı
       children: [
         Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           //Analog ve dijital tuşlar için
           children: [
             Row(
+              //Analog Tuşlar
               //Dropbox ve Container için
               children: [
-                Obx(() => _dropdownButton(size)),
+                Container(
+                  width: size.width * 0.07,
+                  margin: EdgeInsets.only(right: 20),
+                  child: Text(
+                    "Analog",
+                    style: GoogleFonts.montserrat(
+                        color: Colors.white, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                Obx(() => _dropdownButton(size, 1)),
+                Obx(() => InkWell(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 20),
+                        width: size.width * 0.12,
+                        height: size.height * 0.07,
+                        decoration: BoxDecoration(
+                            color: MainApp.c.color.value,
+                            borderRadius: BorderRadius.circular(8)),
+                      ),
+                      onTap: () {
+                        print("sa");
+                      },
+                    ))
               ],
-            )
+            ),
+            Container(
+              height: size.height * 0.05,
+            ),
+            Container(
+              height: 1,
+              width: size.width * 0.4,
+              color: Colors.white,
+            ),
+            Container(
+              height: size.height * 0.05,
+            ),
+            Row(
+              //Dijital Tuşlar
+              //Dropbox ve Container için
+              children: [
+                Container(
+                  width: size.width * 0.07,
+                  margin: EdgeInsets.only(right: 20),
+                  child: Text(
+                    "Digital",
+                    style: GoogleFonts.montserrat(
+                        color: Colors.white, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                Obx(() => _dropdownButton(size, 2)),
+                Obx(() => InkWell(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 20),
+                        width: size.width * 0.12,
+                        height: size.height * 0.07,
+                        decoration: BoxDecoration(
+                            color: MainApp.c.color2.value,
+                            borderRadius: BorderRadius.circular(8)),
+                      ),
+                      onTap: () {
+                        print("sa");
+                      },
+                    ))
+              ],
+            ),
           ],
-        )
+        ),
       ],
     ),
   );
@@ -161,7 +225,10 @@ class Controller extends GetxController {
   var selection = 1.obs;
   var profile = 1.obs;
   var color = Color.fromARGB(255, 222, 222, 222).obs;
+  var color2 = Color.fromARGB(255, 222, 222, 222).obs;
   var firstIcon = "None".obs;
+  var secondIcon = "None".obs;
+  var AorD = 1.obs;
 
   void change(int number) {
     selection.value = number;
@@ -175,13 +242,21 @@ class Controller extends GetxController {
     color.value = newColor;
   }
 
+  void changeColor2(Color newColor) {
+    color2.value = newColor;
+  }
+
   void changeIcon(String newMode) {
     firstIcon.value = newMode;
+  }
+
+  void changeSecond(String newMode) {
+    secondIcon.value = newMode;
   }
 }
 
 //Dropdownlar
-DropdownButtonHideUnderline _dropdownButton(Size size) {
+DropdownButtonHideUnderline _dropdownButton(Size size, int number) {
   return DropdownButtonHideUnderline(
     child: Container(
       padding: EdgeInsets.all(5),
@@ -193,9 +268,15 @@ DropdownButtonHideUnderline _dropdownButton(Size size) {
       child: DropdownButton(
         items: dropdownItems,
         onChanged: (String? value) {
-          MainApp.c.changeIcon(value!);
+          if (number == 1)
+            MainApp.c.changeIcon(value!);
+          else {
+            MainApp.c.changeSecond(value!);
+          }
         },
-        value: MainApp.c.firstIcon.value,
+        value: number == 1
+            ? MainApp.c.firstIcon.value
+            : MainApp.c.secondIcon.value,
         borderRadius: BorderRadius.circular(8),
         icon: Icon(
           Icons.arrow_drop_down_rounded,
